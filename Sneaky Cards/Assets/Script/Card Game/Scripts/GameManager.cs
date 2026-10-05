@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     public List<CardType> botPlayedCards = new List<CardType>();
     public List<CardType> playerPlayedCards = new List<CardType>();
 
+    [Header("Card Objects")]
+    public GameObject cardPrefab;
+    public Transform playerCardsParent;
+    public Transform botCardsParent;
+
     void Start()
     {
         StartRPSGame();
@@ -23,12 +28,19 @@ public class GameManager : MonoBehaviour
     {
         CreateDeck();
         ShuffleDeck();
+
+        playerPlayedCards.Clear();
+        botPlayedCards.Clear();
+
         DealCards();
+        CreateCardObjects();
 
         Debug.Log("RPS Game Started!");
         Debug.Log("Player Cards: " + playerHand.Count);
         Debug.Log("Bot Cards: " + botHand.Count);
         Debug.Log("Cards Remaining: " + deck.Count);
+        Debug.Log("Player Played Cards: " + playerPlayedCards.Count);
+        Debug.Log("Bot Played Cards: " + botPlayedCards.Count);
     }
 
     void CreateDeck()
@@ -83,6 +95,52 @@ public class GameManager : MonoBehaviour
         {
             botHand.Add(deck[0]);
             deck.RemoveAt(0);
+        }
+    }
+
+    void CreateCardObjects()
+    {
+        // Remove old cards
+        foreach (Transform child in playerCardsParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in botCardsParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Create player cards
+        for (int i = 0; i < playerHand.Count; i++)
+        {
+            GameObject cardObject = Instantiate(cardPrefab, playerCardsParent);
+
+            RPSCard card = cardObject.GetComponent<RPSCard>();
+
+            card.SetupCard(playerHand[i]);
+
+            cardObject.transform.localPosition = new Vector3(
+                i * 2.0f - 4.0f,
+                0,
+                0
+            );
+        }
+
+        // Create bot cards
+        for (int i = 0; i < botHand.Count; i++)
+        {
+            GameObject cardObject = Instantiate(cardPrefab, botCardsParent);
+
+            RPSCard card = cardObject.GetComponent<RPSCard>();
+
+            card.SetupCard(botHand[i]);
+
+            cardObject.transform.localPosition = new Vector3(
+                i * 2.0f - 4.0f,
+                0,
+                0
+            );
         }
     }
 
