@@ -152,3 +152,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RPSCard
   cardType: 0
+  gameManager: {fileID: 0}
+  isPlayerCard: 0
