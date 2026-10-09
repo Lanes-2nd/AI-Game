@@ -578,7 +578,7 @@ MonoBehaviour:
   viewDistance: 10
   viewAngle: 90
   detection: 0
-  detectionSpeed: 30
+  detectionSpeed: 20
   detectionDecay: 20
   detectionThreshold: 100
   eyeHeight: 1.5
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca03e5cb5c9c2d44a17ee3f49a365e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallDetection
-  detectionDistance: 1.2
+  detectionDistance: 2
   turnAngle: 45
   obstacleLayers:
     serializedVersion: 2
