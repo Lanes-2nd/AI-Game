@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/HomeScreenBackgroundPlaceholder.unity
+    guid: 2f3bbdc0a10fe1b41a562dca1f532148
+  - enabled: 1
+    path: Assets/Scenes/Test.unity
+    guid: 314127c5a9f6f8449be9be9d0bd8de97
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
