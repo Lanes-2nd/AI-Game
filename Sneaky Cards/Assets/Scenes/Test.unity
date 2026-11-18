@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 281554867}
   - component: {fileID: 281554866}
   - component: {fileID: 281554865}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,9 +720,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WallDetection
   detectionDistance: 2
   turnAngle: 45
+  rayHeight: 0.5
+  bodyRadius: 0.5
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
 --- !u!1 &420374086
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +928,7 @@ GameObject:
   - component: {fileID: 552076198}
   - component: {fileID: 552076197}
   - component: {fileID: 552076196}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1038,7 +1040,7 @@ GameObject:
   - component: {fileID: 721290164}
   - component: {fileID: 721290163}
   - component: {fileID: 721290162}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1499,7 +1501,7 @@ GameObject:
   - component: {fileID: 1131959968}
   - component: {fileID: 1131959967}
   - component: {fileID: 1131959966}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Test Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1739,7 +1741,7 @@ GameObject:
   - component: {fileID: 1938898755}
   - component: {fileID: 1938898754}
   - component: {fileID: 1938898753}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1851,7 +1853,7 @@ GameObject:
   - component: {fileID: 1948218771}
   - component: {fileID: 1948218770}
   - component: {fileID: 1948218769}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1963,7 +1965,7 @@ GameObject:
   - component: {fileID: 1968314675}
   - component: {fileID: 1968314674}
   - component: {fileID: 1968314673}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
