@@ -67,18 +67,23 @@ public class GameManager : MonoBehaviour
             Vector2 mousePosition = Mouse.current.position.ReadValue();
 
             Vector3 worldPosition = TwoDCamera.ScreenToWorldPoint(
-                new Vector3(mousePosition.x, mousePosition.y, 10f)
+                new Vector3(
+                    mousePosition.x,
+                    mousePosition.y,
+                    Mathf.Abs(TwoDCamera.transform.position.z)
+                )
             );
 
-            Collider2D hit = Physics2D.OverlapPoint(worldPosition);
+            Collider2D[] hits = Physics2D.OverlapPointAll(worldPosition);
 
-            if (hit != null)
+            foreach (Collider2D hit in hits)
             {
-                RPSCard card = hit.GetComponent<RPSCard>();
+                RPSCard card = hit.GetComponentInParent<RPSCard>();
 
-                if (card != null)
+                if (card != null && card.isPlayerCard)
                 {
                     card.PlayCard();
+                    break;
                 }
             }
         }
@@ -178,10 +183,9 @@ public class GameManager : MonoBehaviour
 
             RPSCard card = cardObject.GetComponent<RPSCard>();
 
-            card.SetupCard(playerHand[i]);
             card.gameManager = this;
             card.isPlayerCard = true;
-
+            card.SetupCard(playerHand[i], true);
 
             cardObject.transform.localPosition = new Vector3(
                 i * 2.0f - 4.0f,
@@ -197,7 +201,9 @@ public class GameManager : MonoBehaviour
 
             RPSCard card = cardObject.GetComponent<RPSCard>();
 
-            card.SetupCard(botHand[i]);
+            card.gameManager = this;
+            card.isPlayerCard = false;
+            card.SetupCard(botHand[i], false);
 
             cardObject.transform.localPosition = new Vector3(
                 i * 2.0f - 4.0f,
@@ -314,6 +320,9 @@ public class GameManager : MonoBehaviour
 
         // Record the card
         RecordBotCard(chosenCard);
+
+        // Reveal the bot's selected card
+        chosenCardObject.RevealCard();
 
         // Move the actual card to the played position
         chosenCardObject.transform.position = botPlayedCardPosition.position;
