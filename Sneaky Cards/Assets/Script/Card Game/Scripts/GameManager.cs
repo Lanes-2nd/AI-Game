@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,13 @@ public class GameManager : MonoBehaviour
     public int currentRound = 1;
     public bool playerHasPlayed = false;
     public RPSBotAI botAI;
+
+    [Header("End Screens")]
+    public GameObject winScreen;
+    public GameObject loseScreen;
+
+    [Header("Level Progression")]
+    public string nextLevelSceneName;
 
     public int playerWins = 0;
     public int botWins = 0;
@@ -344,7 +352,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Remove the previous played cards
         if (playerPlayedCard != null)
         {
             Destroy(playerPlayedCard.gameObject);
@@ -376,47 +383,40 @@ public class GameManager : MonoBehaviour
         botPlayedCards.Add(card);
     }
 
-    public void DetermineRoundWinner(CardType playerCard, CardType botCard)
+
+    void DetermineRoundWinner(CardType playerCard, CardType botCard)
     {
-        // Draw
         if (playerCard == botCard)
         {
             drawCount++;
+            botWins++;
 
-            Debug.Log("Round Result: Draw!");
-            Debug.Log("Score - Player: " + playerWins + " | Bot: " + botWins + " | Draws: " + drawCount);
-
-            CheckMatchWinner();
-
-            StartCoroutine(ShowNextRoundButton());
-
-
-            return;
+            Debug.Log("Round Result: Draw! Bot gets the point!");
         }
-
-        // Player wins
-        if (
+        else if (
             (playerCard == CardType.Rock && botCard == CardType.Scissors) ||
             (playerCard == CardType.Paper && botCard == CardType.Rock) ||
-            (playerCard == CardType.Scissors && botCard == CardType.Paper)
-        )
+            (playerCard == CardType.Scissors && botCard == CardType.Paper))
         {
             playerWins++;
             Debug.Log("Round Result: Player Wins!");
         }
-        // Bot wins
         else
         {
             botWins++;
             Debug.Log("Round Result: Bot Wins!");
         }
 
-        Debug.Log("Score - Player: " + playerWins + " | Bot: " + botWins + " | Draws: " + drawCount);
+        Debug.Log($"Score - Player: {playerWins} | Bot: {botWins} | Draws: {drawCount}");
 
         CheckMatchWinner();
 
-        StartCoroutine(ShowNextRoundButton());
+        if (!matchOver)
+        {
+            StartCoroutine(ShowNextRoundButton());
+        }
     }
+
 
     public void CheckMatchWinner()
     {
@@ -425,6 +425,7 @@ public class GameManager : MonoBehaviour
         {
             matchOver = true;
             Debug.Log("MATCH OVER! PLAYER WINS THE GAME!");
+            ShowWinScreen();
             return;
         }
 
@@ -432,6 +433,7 @@ public class GameManager : MonoBehaviour
         {
             matchOver = true;
             Debug.Log("MATCH OVER! BOT WINS THE GAME!");
+            ShowLoseScreen();
             return;
         }
 
@@ -442,17 +444,17 @@ public class GameManager : MonoBehaviour
             {
                 matchOver = true;
                 Debug.Log("MATCH OVER! PLAYER WINS THE GAME!");
-            }
-            else if (botWins > playerWins)
-            {
-                matchOver = true;
-                Debug.Log("MATCH OVER! BOT WINS THE GAME!");
+                ShowWinScreen();
+
             }
             else
             {
                 matchOver = true;
-                Debug.Log("MATCH OVER! THE MATCH IS A TIE!");
+                Debug.Log("MATCH OVER! BOT WINS THE GAME!");
+                ShowLoseScreen();
+
             }
+
         }
     }
 
@@ -465,4 +467,63 @@ public class GameManager : MonoBehaviour
             nextRoundButton.SetActive(true);
         }
     }
+
+    public void TestRestartButton()
+    {
+        Debug.Log("RESTART BUTTON CLICKED!");
+    }
+
+    public void ShowWinScreen()
+    {
+        if (winScreen != null)
+        {
+            winScreen.SetActive(true);
+            Debug.Log("Win screen activated!");
+        }
+        else
+        {
+            Debug.LogError("Win Screen is not assigned in the Inspector!");
+        }
+    }
+
+    public void ShowLoseScreen()
+    {
+        if (loseScreen != null)
+        {
+            loseScreen.SetActive(true);
+            Debug.Log("Lose screen activated!");
+        }
+        else
+        {
+            Debug.LogError("Lose Screen is not assigned in the Inspector!");
+        }
+    }
+
+
+    public void LoadNextLevel()
+    {
+        Debug.Log("WIN BUTTON CLICKED!");
+
+        if (string.IsNullOrEmpty(nextLevelSceneName))
+        {
+            Debug.LogError("Next Level Scene Name is EMPTY!");
+            return;
+        }
+
+        Debug.Log("Loading scene: " + nextLevelSceneName);
+
+        SceneManager.LoadScene(nextLevelSceneName);
+    }
+
+    public void RestartLevel()
+    {
+        Debug.Log("LOSE BUTTON CLICKED!");
+
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        Debug.Log("Restarting scene: " + currentScene);
+
+        SceneManager.LoadScene(currentScene);
+    }
+
 }
